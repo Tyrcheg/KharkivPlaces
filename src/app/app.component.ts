@@ -4,7 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { NewsPage, LoginPage, AccountPage, PlacesPage } from "../pages/pages";
-import { AccountService } from "../providers/providers";
+import { AccountService, AuthData } from "../providers/providers";
+
+import firebase from 'firebase';
 
 @Component({
   templateUrl: 'app.html'
@@ -13,9 +15,11 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   isLogedIn;
   rootPage: any = NewsPage;
+  pages: Array<{title: string, component: any}> = [
+      { title: 'Новости', component: NewsPage},
+      { title: 'Места', component: PlacesPage}
+    ];
 
-
-  pages: Array<{title: string, component: any}>;
 
   constructor(
     public platform: Platform, 
@@ -24,17 +28,14 @@ export class MyApp {
     private accountSrv: AccountService,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private events: Events) {
+    private events: Events,
+    private authData: AuthData) {
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Новости', component: NewsPage},
-      { title: 'Места', component: PlacesPage}
-    ];
+    this.initiliazeFirebase();
 
     this.events.subscribe("user:loging", isLogedIn => {
       this.isLogedIn = isLogedIn;
+      
     })
   }
 
@@ -45,6 +46,27 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  initiliazeFirebase(){
+      var config = {
+        apiKey: "AIzaSyBS4m82UW1BT56bl_heTFaVQZumizKzUkA",
+        authDomain: "kharkivplaces.firebaseapp.com",
+        databaseURL: "https://kharkivplaces.firebaseio.com",
+        projectId: "kharkivplaces",
+        storageBucket: "kharkivplaces.appspot.com",
+        messagingSenderId: "503102642749"
+    };
+      firebase.initializeApp(config);
+      firebase.auth().onAuthStateChanged((user) => {
+          if (!user) {
+              console.log("not login");
+              // this.rootPage = Login;
+          } else {
+              console.log("login");
+              // this.rootPage = HomePage;
+          }
+      });
   }
 
   openPage(page) {
@@ -58,5 +80,14 @@ export class MyApp {
 
   openLoginPage() {
     this.nav.push(LoginPage);
+  }
+
+  logOut(){
+    this.authData.logoutUser().then( suc => {
+      // this.events.publish("user:logedin", false);
+      this.isLogedIn = false;
+    }, err => {
+      alert("Что-то пошло не так.")
+    })
   }
 }

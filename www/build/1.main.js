@@ -1,14 +1,13 @@
 webpackJsonp([1],{
 
-/***/ 274:
+/***/ 286:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__places__ = __webpack_require__(203);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlacesPageModule", function() { return PlacesPageModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__reset_password__ = __webpack_require__(208);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPasswordModule", function() { return ResetPasswordModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,28 +15,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
+// import { IonicModule } from 'ionic-angular';
 
-
-var PlacesPageModule = (function () {
-    function PlacesPageModule() {
+var ResetPasswordModule = (function () {
+    function ResetPasswordModule() {
     }
-    return PlacesPageModule;
+    return ResetPasswordModule;
 }());
-PlacesPageModule = __decorate([
+ResetPasswordModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_2__places__["a" /* PlacesPage */],
-        ],
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__places__["a" /* PlacesPage */]),
+            __WEBPACK_IMPORTED_MODULE_1__reset_password__["a" /* ResetPasswordPage */],
         ],
         exports: [
-            __WEBPACK_IMPORTED_MODULE_2__places__["a" /* PlacesPage */]
+            __WEBPACK_IMPORTED_MODULE_1__reset_password__["a" /* ResetPasswordPage */]
         ]
     })
-], PlacesPageModule);
+], ResetPasswordModule);
 
-//# sourceMappingURL=places.module.js.map
+//# sourceMappingURL=reset-password.module.js.map
 
 /***/ })
 

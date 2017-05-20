@@ -1,68 +1,81 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ViewController, LoadingController, Loading } from 'ionic-angular';
-import { AccountService } from "../../providers/providers";
-import { RegistrationPage } from "../pages";
+import { IonicPage, NavController, NavParams, LoadingController,
+  AlertController, 
+  ToastController,
+    Events} from 'ionic-angular';
+import { FormBuilder, Validators } from '@angular/forms';
+
+import { EmailValidator } from '../../validators/email';
+import { AuthData } from '../../providers/auth-data';
+
+import { SignupPage, ResetPasswordPage, NewsPage } from "../pages";
 
 @IonicPage()
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html',
+    selector: 'page-login',
+    templateUrl: 'login.html',
 })
 export class LoginPage {
+    public loginForm;
+    loading: any;
 
-  email: string = "";
-  password: string  = "";
-  loader : Loading;
+    constructor(public navCtrl: NavController, 
+      public navParams: NavParams,
+      public formBuilder: FormBuilder,
+      public alertCtrl: AlertController,
+      public loadingCtrl: LoadingController,
+      public authData: AuthData, 
+      public nav: NavController,
+      private toastCtrl: ToastController,
+      private events: Events) {
 
-  constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams,
-    private accountService: AccountService,
-    private alertCtrl: AlertController,
-    private viewCtrl: ViewController,
-    private loadingCtrl: LoadingController) {
-  }
+        this.loginForm = formBuilder.group({
+            email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
+            password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+        });
 
-  ionViewDidLoad() { }
-
-  login(){
-    // let data = { 'name': this.username, 'password' : this.password };
-    this.presentLoading();
-
-    if(!this.accountService.login(this.email, this.password)){
-      this.alertCtrl.create({
-        title: 'Ошибка',
-        subTitle: "Проверьте правильность ввода",
-        buttons: ['Закрыть']
-      }).present();
-      this.email = "";
-      this.password = "";
-
-      this.loader.dismiss();
-      return;
     }
 
-    this.loader.dismiss();
-    //this.viewCtrl.dismiss(true);
-    this.navCtrl.pop();
-  }
+    loginUser(): void {
+        if (!this.loginForm.valid) {
+            console.log(this.loginForm.value);
+        } else {
+            this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password).then(authData => {
+                this.loading.dismiss().then(() => {
+                    this.toastCtrl.create({
+                      message: "Вы зашли на свой профиль",
+                      duration: 2000
+                    });
+                    this.events.publish("user:loging", true);
+                    this.nav.setRoot(NewsPage);
+                });
+            }, error => {
+                this.loading.dismiss().then(() => {
+                    let alert = this.alertCtrl.create({
+                        message: error.message,
+                        buttons: [
+                            {
+                                text: "Ок",
+                                role: 'calncel'
+                            }
+                        ]
+                    });
+                    alert.present();
+                });
+            });
 
-  register(){
-    this.navCtrl.push(RegistrationPage);
+            this.loading = this.loadingCtrl.create({
+              content: "Авторизация..."
+            });
+            this.loading.present();
+        }
+    }
 
-  }
+    goToSignup(): void {
+        this.nav.push(SignupPage);
+    }
 
-  presentLoading(){
-    this.loader = this.loadingCtrl.create({
-      content: "Авторизация..."
-    });
-    this.loader.present();
-  }
-
-  closePage(){
-    this.navCtrl.pop();
-  }
-
-
-
+    goToResetPassword(): void {
+        this.nav.push(ResetPasswordPage);
+    }
 }

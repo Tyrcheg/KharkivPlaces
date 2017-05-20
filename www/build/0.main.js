@@ -1,14 +1,13 @@
 webpackJsonp([0],{
 
-/***/ 275:
+/***/ 287:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__registration__ = __webpack_require__(204);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegistrationPageModule", function() { return RegistrationPageModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__signup__ = __webpack_require__(209);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SignupModule", function() { return SignupModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,28 +15,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
+// import { IonicModule } from 'ionic-angular';
 
-
-var RegistrationPageModule = (function () {
-    function RegistrationPageModule() {
+var SignupModule = (function () {
+    function SignupModule() {
     }
-    return RegistrationPageModule;
+    return SignupModule;
 }());
-RegistrationPageModule = __decorate([
+SignupModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_2__registration__["a" /* RegistrationPage */],
-        ],
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__registration__["a" /* RegistrationPage */]),
+            __WEBPACK_IMPORTED_MODULE_1__signup__["a" /* SignupPage */],
         ],
         exports: [
-            __WEBPACK_IMPORTED_MODULE_2__registration__["a" /* RegistrationPage */]
+            __WEBPACK_IMPORTED_MODULE_1__signup__["a" /* SignupPage */]
         ]
     })
-], RegistrationPageModule);
+], SignupModule);
 
-//# sourceMappingURL=registration.module.js.map
+//# sourceMappingURL=signup.module.js.map
 
 /***/ })
 
