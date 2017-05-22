@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events, AlertController, ModalController } from 'ionic-angular';
 import { LoginPage } from "../pages";
-import { MyApp } from "../../app/app.component";
 import firebase from 'firebase';
-import { InitDatabase } from "../../providers/initDatabase";
-import { PlaceType } from "../../models/models";
+import { DbService } from "../../providers/providers";
 
 @IonicPage()
 @Component({
@@ -21,7 +19,7 @@ export class NewsPage {
     private events: Events,
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
-    private db: InitDatabase
+    private db: DbService
     ) {
       firebase.auth().onAuthStateChanged(user => {
         if(!user){
@@ -32,12 +30,15 @@ export class NewsPage {
           snap => this.user = snap.val());
       })
 
-      let rand = (Math.random() * 20) + 12;
-      db.createUser("arczs" + rand + "@some.ru", "Art", "Mirtk", "somePassword");
-      db.createPlace("Misto", "Symska", 100, 200, PlaceType.Клуб);
+
+
+      
+      db.createUser("arczs" + Math.random() * 10 + "@some.ru", "Art", "Mirtk", "somePassword");
+      db.createRandomPlace();
       db.initPlaceTypes();
       
   }
+
   selectedMyNews(){
     if(!this.user){
       let alert = this.alertCtrl.create({

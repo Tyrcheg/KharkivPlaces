@@ -11,10 +11,11 @@
         </button>
         <ion-item>
             <ion-label *ngIf="selectedTypes.length === 0">Типы заведений</ion-label>
-            <ion-select #list (ionChange)="selectListChanged()" okText="Выбрать" cancelText="Отмена" [(ngModel)]="selectedTypes" multiple="true" placeHolder="Выберите тип заведения">
-
+            <!--<ion-select #list  (change)="onChange($event.target.value)" (ionChange)="selectListChanged()" okText="Выбрать" cancelText="Отмена" [(ngModel)]="selectedTypes" multiple="true" placeHolder="Выберите тип заведения">-->
+            <!--<ion-select #list (change)="onChange($event.target.value)" (ionChange)="selectListChanged()" okText="Выбрать" cancelText="Отмена" [(ngModel)]="selectedTypes" multiple="true" placeHolder="Выберите тип заведения">-->
+            <ion-select #list (change)="onChange($event.target.value)" (ionChange)="selectListChanged()" okText="Выбрать" cancelText="Отмена" (ngModelChange)="onChange($event)" [ngModel]="selectedTypes" multiple="true" placeHolder="Выберите тип заведения">
                 <ion-option value="all">Все</ion-option>
-                <ion-option *ngFor="let type of placeTypes" [value]="type.name">{{ type.name }} ({{ type.followersCount }})</ion-option>
+                <ion-option *ngFor="let type of placeTypes" [value]="type.name">{{ type.name }} ({{ type.placesCount }}) </ion-option>
             </ion-select>
         </ion-item>
     </ion-navbar>

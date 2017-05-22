@@ -39,8 +39,10 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      if(!this.platform.win()){
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
+      }
     });
   }
 
@@ -54,7 +56,7 @@ export class MyApp {
           messagingSenderId: "503102642749"
       };
       try {
-        console.log("Start initializing firebase");
+        // console.log("Start initializing firebase");
         firebase.initializeApp(config);
       }
       catch(err) { console.warn("Firebase error initialization", err)}

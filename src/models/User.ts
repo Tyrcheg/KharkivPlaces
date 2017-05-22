@@ -2,6 +2,7 @@ export class User {
     email: any;
     firstName: any;
     lastName: any;
+    thumbnail: string;
     pictures: boolean = true;
     usersFollowingsRef: true;
 }

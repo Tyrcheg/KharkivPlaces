@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import firebase from 'firebase';
 import * as _ from 'lodash';
+// import * as $ from 'jquery';
 
 @IonicPage()
 @Component({
@@ -28,19 +29,35 @@ export class PlacesPage {
         this.selectListChanged();
       });
 
-    // this.initPlaceTypes();
+
+  }
+
+  onChange(value){
+    if(value == "all")
+      this.selectedTypes = ["all"];
+    else if(this.selectedTypes.indexOf("all") >= 0)
+      this.selectedTypes.slice(this.selectedTypes.indexOf("all"), 1);      
+  }
+  ionViewDidLoad(){
+    // var thisObj = this;
+    // $("#list").change( function() {
+    //   var val = $(this).val();
+    //   if(val === "all"){
+    //     thisObj.selectedTypes = ["all"];
+    //   }
+    // });
+
   }
 
 
-
   getPlaceTypes(){
-    firebase.database().ref('/placeTypes').on('value', snap => {
+    firebase.database().ref('/placesTypes').on('value', snap => {
       console.log(snap.val());
       snap.forEach(type => {
         this.placeTypes.push({
           name: type.val().name,
           key: type.key,
-          followersCount: type.val().followersCount
+          placesCount: type.val().placesCount
         });
         return false;
       })
