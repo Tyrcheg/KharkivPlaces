@@ -12,7 +12,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPasswordPage } from "../pages/pages";
+import { InitDatabase } from "../providers/initDatabase";
 
+// import { User, Place, PlaceTypeObj, PlaceForPlaceType, PlaceRating, PlaceRatings, UsersFollowing, PlaceType } from "../models/models";
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPassword
     LoginPage,
     PlacesPage,
     SignupPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    // User, Place, PlaceTypeObj, PlaceForPlaceType, PlaceRating, PlaceRatings, UsersFollowing
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPassword
     { provide: ErrorHandler, useClass: IonicErrorHandler},
     UserSettings,
     AuthorizationService,
-    AccountService
+    AccountService,
+    InitDatabase
   ]
 })
 export class AppModule {}

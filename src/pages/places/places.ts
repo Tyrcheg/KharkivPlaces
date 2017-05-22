@@ -31,12 +31,7 @@ export class PlacesPage {
     // this.initPlaceTypes();
   }
 
-  initPlaceTypes(){
-    var array : Array<string> = ["club", "partyBar", "hookahBar", "cocktailBar", "restaurant"];
-    array.forEach(elem => {
-      firebase.database().ref('/placeTypes').push( { name: elem, followersCount: 0 });
-    });
-  }
+
 
   getPlaceTypes(){
     firebase.database().ref('/placeTypes').on('value', snap => {
@@ -45,7 +40,7 @@ export class PlacesPage {
         this.placeTypes.push({
           name: type.val().name,
           key: type.key,
-          followersCount: type.val().followersCount//typeSnap.child('followersCount').numChildren()
+          followersCount: type.val().followersCount
         });
         return false;
       })

@@ -1,14 +1,13 @@
 <ion-header>
-    <ion-navbar>
-        <ion-buttons>
-            <button ion-button icon-only (click)="dismiss()">
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button icon-only (click)="dismiss()" class="closeBtn">
                 <ion-icon name="close"></ion-icon>
             </button>
-            <!--<button ion-button icon-only (click)="dismiss()">закрыть</button>-->
         </ion-buttons>
-        <ion-title>Войти</ion-title>
-    </ion-navbar>
 
+        <ion-title>Войти</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 
@@ -35,7 +34,7 @@
                 <ion-item class="error-message" *ngIf="!loginForm.controls.password.valid  && loginForm.controls.password.dirty">
                     <p>Пароль должен быть не менее 6 символов.</p>
                 </ion-item>
-
+                <br/>
                 <button ion-button block type="submit">Войти</button>
                 <button ion-button block clear (click)="goToSignup()">Создать новый аккаунт</button>
                 <button ion-button block clear (click)="goToResetPassword()">Забыли пароль?</button>

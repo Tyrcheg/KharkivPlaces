@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, Events, AlertController, ModalCont
 import { LoginPage } from "../pages";
 import { MyApp } from "../../app/app.component";
 import firebase from 'firebase';
+import { InitDatabase } from "../../providers/initDatabase";
+import { PlaceType } from "../../models/models";
 
 @IonicPage()
 @Component({
@@ -18,7 +20,8 @@ export class NewsPage {
     public navParams: NavParams,
     private events: Events,
     private alertCtrl: AlertController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private db: InitDatabase
     ) {
       firebase.auth().onAuthStateChanged(user => {
         if(!user){
@@ -28,20 +31,14 @@ export class NewsPage {
         firebase.database().ref('/users').child(user.uid).once('value',
           snap => this.user = snap.val());
       })
+
+      let rand = (Math.random() * 20) + 12;
+      db.createUser("arczs" + rand + "@some.ru", "Art", "Mirtk", "somePassword");
+      db.createPlace("Misto", "Symska", 100, 200, PlaceType.Клуб);
+      db.initPlaceTypes();
+      
   }
-
-
-  // checkForUserObj(){
-  //   if(this.navParams.data.email)
-  //     this.user = this.navParams.data;
-  //   else if(MyApp.globalUserObj)
-  //     this.user = MyApp.globalUserObj;
-  //   console.log(this.user);
-  // }
- 
   selectedMyNews(){
-    console.log("selected option MyNews")
-
     if(!this.user){
       let alert = this.alertCtrl.create({
         title: "Нужно авторизизоваться",

@@ -63,4 +63,8 @@ export class SignupPage {
         });
         this.loading.present();
     }
+
+    dismiss(){
+        this.nav.pop();
+    }
 }
