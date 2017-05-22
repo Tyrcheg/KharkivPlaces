@@ -1,3 +1,3 @@
-export * from './account-service';
+export * from './authorization-service';
 export * from './user-settings';
-export * from './auth-data';
+export * from './account-service';

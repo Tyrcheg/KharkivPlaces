@@ -9,11 +9,43 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Места</ion-title>
+        <ion-item>
+            <ion-label *ngIf="selectedTypes.length === 0">Типы заведений</ion-label>
+            <ion-select #list (ionChange)="selectListChanged()" okText="Выбрать" cancelText="Отмена" [(ngModel)]="selectedTypes" multiple="true" placeHolder="Выберите тип заведения">
+
+                <ion-option value="all">Все</ion-option>
+                <ion-option *ngFor="let type of placeTypes" [value]="type.name">{{ type.name }} ({{ type.followersCount }})</ion-option>
+            </ion-select>
+        </ion-item>
     </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
+    <ion-refresher (ionRefresher)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
+    <ion-list>
+        <button ion-item *ngFor="let place of sortedPlaces" (click)="itemSelected(place)">
+            {{ place.name }}
+        </button>
+    </ion-list>
+
+    <!--<ion-content>
+        <ion-item-group>
+            <ion-item-divider color="light">A</ion-item-divider>
+            <ion-item>Angola</ion-item>
+            <ion-item>Argentina</ion-item>
+        </ion-item-group>
+    </ion-content>-->
+
+    <!--<ion-list>
+        <ion-list-header>
+            Action
+        </ion-list-header>
+        <ion-item>Terminator II</ion-item>
+        <ion-item>The Empire Strikes Back</ion-item>
+        <ion-item>Blade Runner</ion-item>
+    </ion-list>-->
 </ion-content>

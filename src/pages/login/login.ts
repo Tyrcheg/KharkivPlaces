@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController,
-  AlertController, 
-  ToastController,
-    Events} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, 
+    AlertController, ToastController, Events, ViewController
+} from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { EmailValidator } from '../../validators/email';
-import { AuthData } from '../../providers/auth-data';
 
 import { SignupPage, ResetPasswordPage, NewsPage } from "../pages";
+import { AuthorizationService } from "../../providers/providers";
 
 @IonicPage()
 @Component({
@@ -23,8 +22,9 @@ export class LoginPage {
       public navParams: NavParams,
       public formBuilder: FormBuilder,
       public alertCtrl: AlertController,
+      private viewCtrl: ViewController,
       public loadingCtrl: LoadingController,
-      public authData: AuthData, 
+      public authService: AuthorizationService, 
       public nav: NavController,
       private toastCtrl: ToastController,
       private events: Events) {
@@ -33,21 +33,28 @@ export class LoginPage {
             email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
             password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
         });
+    }
 
+    dismiss(data? : any ){
+        this.viewCtrl.dismiss(data);
     }
 
     loginUser(): void {
         if (!this.loginForm.valid) {
-            console.log(this.loginForm.value);
-        } else {
-            this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password).then(authData => {
+            console.warn("Invalid data input", this.loginForm.value);
+            return;
+        }
+
+        this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password)
+            .then(authData => {
+                console.log("Data after authService.loginUser", authData);
                 this.loading.dismiss().then(() => {
                     this.toastCtrl.create({
-                      message: "Вы зашли на свой профиль",
-                      duration: 2000
-                    });
-                    this.events.publish("user:loging", true);
-                    this.nav.setRoot(NewsPage);
+                        message: "Успешная авторизация",
+                        duration: 2500
+                    }).present();
+                    //this.nav.setRoot(NewsPage);
+                    this.dismiss(authData);
                 });
             }, error => {
                 this.loading.dismiss().then(() => {
@@ -56,19 +63,19 @@ export class LoginPage {
                         buttons: [
                             {
                                 text: "Ок",
-                                role: 'calncel'
+                                role: 'cancel'
                             }
                         ]
                     });
                     alert.present();
                 });
-            });
+        });
 
-            this.loading = this.loadingCtrl.create({
-              content: "Авторизация..."
-            });
-            this.loading.present();
-        }
+        this.loading = this.loadingCtrl.create({
+            content: "Авторизация..."
+        });
+        this.loading.present();
+
     }
 
     goToSignup(): void {
