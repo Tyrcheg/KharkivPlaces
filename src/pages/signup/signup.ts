@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, 
-    LoadingController, AlertController } from 'ionic-angular';
+    LoadingController, AlertController, ToastController
+} from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EmailValidator } from '../../validators/email';
 import { AuthorizationService } from "../../providers/providers";
@@ -24,7 +25,8 @@ export class SignupPage {
         public authService: AuthorizationService,
         public formBuilder: FormBuilder, 
         public loadingCtrl: LoadingController,
-        public alertCtrl: AlertController) {
+        public alertCtrl: AlertController,
+        private toastCtrl: ToastController) {
 
         this.signupForm = formBuilder.group({
             email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
@@ -37,11 +39,10 @@ export class SignupPage {
             console.log(this.signupForm.value);
             return;
         }
-
-        //this.authData.signupUser(this.signupForm.value.email, this.signupForm.value.password)
         this.authService.signupUser(this.signupForm.value.email, this.signupForm.value.password)
             .then(() => {
                 this.loading.dismiss().then(() => {
+                    this.toastCtrl.create({ message: "Вы успешно зарегестрировались!", duration: 3000, cssClass: "text-center"}).present();
                     this.nav.setRoot(NewsPage);
                 });
             }, error => {

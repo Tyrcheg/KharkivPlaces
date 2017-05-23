@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, 
-    AlertController, ToastController, Events, ViewController
+    AlertController, ToastController, Events, ViewController, App
 } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
@@ -26,6 +26,7 @@ export class LoginPage {
       public loadingCtrl: LoadingController,
       public authService: AuthorizationService, 
       public nav: NavController,
+      private appCtrl: App,
       private toastCtrl: ToastController,
       private events: Events) {
 
@@ -35,8 +36,8 @@ export class LoginPage {
         });
     }
 
-    dismiss(data? : any ){
-        this.viewCtrl.dismiss(data);
+    dismiss(){
+        this.nav.pop();
     }
 
     loginUser(): void {
@@ -53,8 +54,7 @@ export class LoginPage {
                         message: "Успешная авторизация",
                         duration: 2500
                     }).present();
-                    //this.nav.setRoot(NewsPage);
-                    this.dismiss(authData);
+                    this.dismiss();
                 });
             }, error => {
                 this.loading.dismiss().then(() => {

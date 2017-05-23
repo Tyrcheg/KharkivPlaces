@@ -112,10 +112,11 @@ export class MyApp {
   }
 
   openLoginPage() {
-    this.modalCtrl.create(LoginPage, null, {
-      enableBackdropDismiss: true,
-      showBackdrop: true
-    }).present();
+    this.nav.push(LoginPage, null, {
+      // animation: 'ios-transition'
+      animate : true,
+      direction: 'forward'
+    });
   }
 
   logOut() {

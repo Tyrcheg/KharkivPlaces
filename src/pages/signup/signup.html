@@ -10,11 +10,11 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
 
         <ion-item>
-            <ion-label stacked>Email</ion-label>
+            <ion-label floating>Email</ion-label>
             <ion-input #email formControlName="email" type="email" [class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty">
             </ion-input>
         </ion-item>
@@ -23,7 +23,7 @@
         </ion-item>
 
         <ion-item>
-            <ion-label stacked>Password</ion-label>
+            <ion-label floating>Пароль</ion-label>
             <ion-input #password formControlName="password" type="password" [class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty">
             </ion-input>
         </ion-item>
@@ -31,8 +31,6 @@
             <p>Пароль должен быть не менее 6 символов.</p>
         </ion-item>
 
-        <button ion-button block type="submit">
-      Create an Account
-    </button>
+        <button ion-button block type="submit">Создать аккаунт</button>
     </form>
 </ion-content>
