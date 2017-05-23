@@ -71,13 +71,11 @@ export class MyApp {
         this.unsubscribeFromUserChangedEvent();
         return;
       }
-      console.log("OnAuthChangedEvent", user);
-
+      // console.log("OnAuthChangedEvent", user);
       this.userRef = firebase.database().ref('/users').child(user.uid);
       this.userRef.once('value', snap => {
         this.user = snap.val();
         MyApp.globalUserObj = this.user;
-        console.log("Getting data after onAuthStateChanged->userRef.once", this.user);
       });
       this.subscribeOnUserChangedEvent();
     })

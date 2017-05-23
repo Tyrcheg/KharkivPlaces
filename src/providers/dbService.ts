@@ -6,7 +6,10 @@ import { User, Place, PlaceType } from "../models/models";
 //PlaceTypeObj, PlaceForPlaceType, PlaceRating, PlaceRatings, UsersFollowing, 
 @Injectable()
 export class DbService {
-    constructor() {}
+    constructor() {
+
+    }
+
     authRef = db.auth();
     usersRef = db.database().ref('/users');    
     placesRef = db.database().ref('/places');    
@@ -14,12 +17,17 @@ export class DbService {
     placesFeedbacks = db.database().ref('/placesFeedbacks');
     usersFollowings = db.database().ref('/usersFollowings');
 
-    placeNames = ["Misto", "Moskvich", "SecretPlace", "MoonRoom", "MetropolPark", 
-        "Dybrovskii", "Arizona"]
+    anonThumbnailRef = "https://firebasestorage.googleapis.com/v0/b/kharkivplaces.appspot.com/o/anonThumbnail.png?alt=media&token=e9568db4-16f4-4d7a-9313-130c32e49269";
 
-    createUser(email, first, last, password){
-        this.authRef.createUserWithEmailAndPassword(email, password).then( snap => {
-            let user : User = { email: email, firstName: first, lastName: last, pictures: true, usersFollowingsRef: true  };
+    placeNames = ["Misto", "MoskvichBar", "SecretPlace", "MoonRoom", "MetropolPark", 
+        "Dybrovskii", "Arizona", "Bolero", "Meridian", "AltBier"]
+    streetsNames = ["Сумская 23", "Данилевского 32", "Чичибабина 47", "Шевченко 192", "Самолетная 12", "Гагарина 61"];
+
+    createUser(email, password, firstName, lastName){
+        this.authRef.createUserWithEmailAndPassword(email, password).then(snap => {
+            console.log(this.authRef.currentUser);
+            let user : User = { email: email, thumbnail: this.anonThumbnailRef, 
+                firstName: firstName, lastName: lastName, pictures: true, usersFollowingsRef: true  };
             this.usersRef.child(snap.uid).set(user);
         });
     };
@@ -48,8 +56,14 @@ export class DbService {
         if(n.toString() == rand.toString())
         { placeType = n; break; }
         
-      this.createPlace(this.placeNames[rand], "Symska" + rand * 1.5
-        , 25 * rand * 100, 47 * rand , placeType);
+      this.createPlace(this.placeNames[Math.round(Math.random() * (this.placeNames.length - 1))], 
+        this.streetsNames[Math.round(Math.random() * ( this.streetsNames.length - 1))],
+        25 * rand * 100, 47 * rand, 
+        placeType);
+    }
+
+    createRandomUser(){
+        this.createUser("asd" + Math.round(Math.random() * 1000) + "@ml.ru", "somePassword", "First", "Last");
     }
 
     initPlaceTypes(){
@@ -69,10 +83,10 @@ export class DbService {
     });
   }
 
-  onUserDelete(){
-     this.usersRef.on('child_remove', snap =>{ 
-         console.log("On User delete", snap.val());
-     })    
-    }
+  initDb(){
+    //  this.initPlaceTypes();
+      this.createUser("a" + Math.round(Math.random() * 1000) + "@some.ru", "somePassword", "Art", "Mirtk");
+      this.createRandomPlace();
+  }
 }
 

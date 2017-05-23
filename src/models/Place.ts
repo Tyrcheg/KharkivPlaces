@@ -1,5 +1,3 @@
-import { PlaceType } from "./models";
-
 export class Place {
     name: any;
     address: any;

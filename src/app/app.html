@@ -8,7 +8,7 @@
     <ion-content>
         <ion-list>
             <ion-item *ngIf="user !== null" (click)="openAccountPage()" menuClose>
-                <ion-avatar item-left><img [src]="user.picture.thumbnail" alt=""></ion-avatar>
+                <ion-avatar item-left><img [src]="user.thumbnail" alt=""></ion-avatar>
                 {{ user.firstName == "anonymous" ? user.email : user.firstName }}
             </ion-item>
             <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">

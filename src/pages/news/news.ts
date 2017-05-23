@@ -26,17 +26,15 @@ export class NewsPage {
           this.user = null;
           return;
         }
-        firebase.database().ref('/users').child(user.uid).once('value',
-          snap => this.user = snap.val());
-      })
-
-
-
-      
-      db.createUser("arczs" + Math.random() * 10 + "@some.ru", "Art", "Mirtk", "somePassword");
-      db.createRandomPlace();
-      db.initPlaceTypes();
-      
+        // firebase.database().ref('/users').child(user.uid).once('value',
+        //   snap => this.user = snap.val());
+        this.user = firebase.auth().currentUser;
+        this.news = "my";
+      })   
+      // db.initDb();
+      // db.createRundomUser();      
+      // db.initPlaceTypes();
+      // db.createRandomPlace();
   }
 
   selectedMyNews(){

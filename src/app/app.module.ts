@@ -11,7 +11,7 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPasswordPage } from "../pages/pages";
+import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPasswordPage, PlacePage } from "../pages/pages";
 
 @NgModule({
   declarations: [
@@ -22,6 +22,7 @@ import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPassword
     PlacesPage,
     SignupPage,
     ResetPasswordPage,
+    PlacePage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +37,8 @@ import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPassword
     LoginPage,
     PlacesPage,
     SignupPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    PlacePage
   ],
   providers: [
     StatusBar,

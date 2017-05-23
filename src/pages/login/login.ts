@@ -6,7 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 
 import { EmailValidator } from '../../validators/email';
 
-import { SignupPage, ResetPasswordPage, NewsPage } from "../pages";
+import { SignupPage, ResetPasswordPage } from "../pages";
 import { AuthorizationService } from "../../providers/providers";
 
 @IonicPage()
