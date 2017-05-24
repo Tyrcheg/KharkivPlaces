@@ -14,21 +14,22 @@ import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPassword
 
 import * as firebase from 'firebase';
 import { CommonModule } from "@angular/common/";
+import { ReversePipe } from "../providers/reversePipe";
 
 firebase.initializeApp({
-          apiKey: "AIzaSyBS4m82UW1BT56bl_heTFaVQZumizKzUkA",
-          authDomain: "kharkivplaces.firebaseapp.com",
-          databaseURL: "https://kharkivplaces.firebaseio.com",
-          projectId: "kharkivplaces",
-          storageBucket: "kharkivplaces.appspot.com",
-          messagingSenderId: "503102642749"
-      });
- 
+  apiKey: "AIzaSyBS4m82UW1BT56bl_heTFaVQZumizKzUkA",
+  authDomain: "kharkivplaces.firebaseapp.com",
+  databaseURL: "https://kharkivplaces.firebaseio.com",
+  projectId: "kharkivplaces",
+  storageBucket: "kharkivplaces.appspot.com",
+  messagingSenderId: "503102642749"
+});
+
 @NgModule({
   declarations: [
     MyApp,
     NewsPage,
-    AccountPage, 
+    AccountPage,
     LoginPage,
     PlacesPage,
     SignupPage,
@@ -41,11 +42,11 @@ firebase.initializeApp({
     IonicModule.forRoot(MyApp),
     CommonModule
   ],
-  bootstrap: [IonicApp], 
+  bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     NewsPage,
-    AccountPage, 
+    AccountPage,
     LoginPage,
     PlacesPage,
     SignupPage,
@@ -55,14 +56,15 @@ firebase.initializeApp({
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserSettings,
     AuthorizationService,
     AccountService,
     DbService,
     PlacesService,
     PlacesTypesService,
-    PlacesNewsService
+    PlacesNewsService,
+    ReversePipe
   ]
 })
-export class AppModule {}
+export class AppModule { }

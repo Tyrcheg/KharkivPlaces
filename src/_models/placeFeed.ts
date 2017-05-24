@@ -7,18 +7,17 @@ export class ShortFeed {
     placeId: any;
     placeName: any;
 
-    image: any;
 }
 
 export class FullFeed {
     title: any;
     text: any;
 
-    placeId: any;
     placeName: any;
 
     image: any;
 
+    likes: [{ userId: string }]
     // comments: Comment[];
 }
 

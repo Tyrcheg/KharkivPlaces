@@ -23,7 +23,7 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    
+
     <ion-list>
         <button (click)="showNewFeeds()" *ngIf="isGotNewFeeds" ion-button block clear>
                 <!--<ion-icon name="notifications " ></ion-icon>-->
@@ -31,10 +31,11 @@
                 &nbsp; новых новостей
         </button>
 
-        <ion-item *ngFor="let feed of news ">
-            <ion-title>{{ feed.title }}</ion-title>
-            <p>{{ feed.shortText }} </p>
-            <ion-note item-right>{{ feed.date }}</ion-note>
+        <ion-item *ngFor="let feed of news" (click)="goToFullFeed(feed)">
+            <ion-title>{{ feed.placeName }}</ion-title>
+            <h3>{{ feed.title }}</h3>
+            <p>{{ feed.textPreview }} </p>
+            <!--feed.data-->
         </ion-item>
     </ion-list>
 
