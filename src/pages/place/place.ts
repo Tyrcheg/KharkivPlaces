@@ -17,13 +17,17 @@ export class PlacePage {
     this.getPlaceInfo();
   }
 
-  getPlaceInfo(){
+  getPlaceInfo() {
     return this.placeRef.once("value", snap => {
       this.place = snap.val();
     }).catch(err => console.log(err));
   }
 
-  doRefresh(e){
-    this.getPlaceInfo().then( () => e.complete());
+  doRefresh(e) {
+    this.getPlaceInfo().then(() => e.complete());
+  }
+
+  dismiss() {
+    this.navCtrl.pop();
   }
 }

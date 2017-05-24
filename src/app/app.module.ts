@@ -10,11 +10,11 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPasswordPage, PlacePage } from "../pages/pages";
+import { NewsPage, AccountPage, LoginPage, PlacesPage, SignupPage, ResetPasswordPage, PlacePage, AccountSettingsPage } from "../pages/pages";
 
 import * as firebase from 'firebase';
 import { CommonModule } from "@angular/common/";
-import { ReversePipe } from "../providers/reversePipe";
+import { ReversePipe } from "../providers/reverse.pipe";
 
 firebase.initializeApp({
   apiKey: "AIzaSyBS4m82UW1BT56bl_heTFaVQZumizKzUkA",
@@ -34,7 +34,9 @@ firebase.initializeApp({
     PlacesPage,
     SignupPage,
     ResetPasswordPage,
-    PlacePage
+    PlacePage,
+    AccountSettingsPage,
+    ReversePipe
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,8 @@ firebase.initializeApp({
     PlacesPage,
     SignupPage,
     ResetPasswordPage,
-    PlacePage
+    PlacePage,
+    AccountSettingsPage
   ],
   providers: [
     StatusBar,

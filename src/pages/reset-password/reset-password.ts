@@ -1,6 +1,8 @@
-import { IonicPage, NavController,
+import {
+    IonicPage, NavController,
     LoadingController,
-    AlertController } from 'ionic-angular';
+    AlertController
+} from 'ionic-angular';
 
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -9,16 +11,16 @@ import { EmailValidator } from "../../validators/email";
 
 @IonicPage()
 @Component({
-  selector: 'page-reset-password',
-  templateUrl: 'reset-password.html',
+    selector: 'page-reset-password',
+    templateUrl: 'reset-password.html',
 })
 export class ResetPasswordPage {
     public resetPasswordForm;
 
     constructor(
-        public accountService: AccountService, 
+        public accountService: AccountService,
         public formBuilder: FormBuilder,
-        public nav: NavController, 
+        public nav: NavController,
         public loadingCtrl: LoadingController,
         public alertCtrl: AlertController) {
 
@@ -31,7 +33,7 @@ export class ResetPasswordPage {
         if (!this.resetPasswordForm.valid) {
             console.log(this.resetPasswordForm.value);
             return;
-        } 
+        }
         this.accountService.resetPassword(this.resetPasswordForm.value.email).then((user) => {
             let alert = this.alertCtrl.create({
                 message: "Письмо с инструкцией для изменения пароля было отправлено Вам на почту",
@@ -61,4 +63,6 @@ export class ResetPasswordPage {
             errorAlert.present();
         });
     }
+
+    dismiss() { this.nav.pop(); }
 }

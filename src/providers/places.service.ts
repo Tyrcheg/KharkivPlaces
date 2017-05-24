@@ -29,7 +29,7 @@ export class PlacesService {
 
         // create news feed
         var rand = Math.round(Math.random() * 120);
-        PlacesNewsService.createFeed(newPlaceKey, place.name, this.titles[rand % this.titles.length - 1], this.texts[rand % this.texts.length - 1]);
+        PlacesNewsService.createFeed(newPlaceKey, place.name, this.titles[rand % --this.titles.length], this.texts[rand % --this.texts.length]);
 
         this.placesTypesRef.orderByChild('name').equalTo(place.placeType).once('value', snap => {
             snap.forEach(elem => {
@@ -43,14 +43,15 @@ export class PlacesService {
     }
 
     createRandomPlace() {
-        let rand = Math.round((Math.random() * this.placeNames.length)) - 1;
+        let rand = Math.round((Math.random() * --this.placeNames.length));
         var placeType;
         for (var n in PlaceType)
             if (n.toString() == rand.toString())
             { placeType = n; break; }
 
-        this.createPlace(this.placeNames[Math.round(Math.random() * (this.placeNames.length - 1))],
-            this.streetsNames[Math.round(Math.random() * (this.streetsNames.length - 1))],
+
+        this.createPlace(this.placeNames[Math.round(Math.random() * 11) % 11],
+            this.streetsNames[Math.round(Math.random() * --this.streetsNames.length - 1)],
             25 * rand * 100, 47 * rand,
             placeType);
     }

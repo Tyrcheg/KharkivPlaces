@@ -5,3 +5,4 @@ export * from './places.service';
 export * from './dbService';
 export * from './placesTypes.service';
 export * from './placesNews.service';
+export * from './reverse.pipe.ts';

@@ -3,16 +3,14 @@ import { IonicPage, NavController, NavParams, Events, AlertController, ModalCont
 import { LoginPage } from "../pages";
 import * as db from 'firebase';
 import { PlacesService } from "../../providers/providers";
-import { ReversePipe } from "../../providers/reversePipe";
 
 @IonicPage()
 @Component({
   selector: 'page-news',
-  templateUrl: 'news.html',
+  templateUrl: 'news.html'
 })
 export class NewsPage {
   errors: any;
-  isGotNewFeeds: boolean = false;
   isFirstLoad: boolean = true;
   newsSelector = "all";
   newsRef = db.database().ref('placesNews/short/');
@@ -30,22 +28,19 @@ export class NewsPage {
     private placesService: PlacesService
   ) {
 
-
     db.auth().onAuthStateChanged(user => {
       if (!user) {
         this.user = null;
         return;
       }
-      this.user = db.auth().currentUser;
+      this.user = user;
       this.newsSelector = "my";
-    })
-    try {
-      this.updateFeeds();
-      this.onNewFeedComesEventSubscribe()
-    }
-    catch (err) { this.showError(err); }
+    });
+    this.updateFeeds();
+    this.onNewFeedComesEventSubscribe()
 
     // setInterval(() => placesService.createRandomPlace(), 4000);
+    setTimeout(() => { try { placesService.createRandomPlace(); } catch (er) { console.log('fucking names bug', er) } }, 5000);
 
   }
 
@@ -90,11 +85,10 @@ export class NewsPage {
       });
       alert.present();
     }
-
   }
 
   doRefresh(e) {
-    this.updateFeeds().then(() => e.complete());
+    this.updateFeeds().then(() => { e.complete(); this.newFeedsArray = []; });
   }
 
   selectedAllNews() {
@@ -107,14 +101,12 @@ export class NewsPage {
         this.isFirstLoad = false;
         return;
       }
-      this.isGotNewFeeds = true;
       this.newFeedsArray.push(snap.val());
     })
   }
 
   showNewFeeds() {
     this.news = this.news.concat(this.newFeedsArray);
-    this.isGotNewFeeds = false;
     this.newFeedsArray = [];
   }
 

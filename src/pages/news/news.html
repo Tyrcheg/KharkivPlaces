@@ -25,13 +25,12 @@
     </ion-refresher>
 
     <ion-list>
-        <button (click)="showNewFeeds()" *ngIf="isGotNewFeeds" ion-button block clear>
-                <!--<ion-icon name="notifications " ></ion-icon>-->
+        <button (click)="showNewFeeds()" *ngIf="newFeedsArray.length > 0" ion-button block clear>
                 <ion-badge >{{ newFeedsArray.length }} </ion-badge>
                 &nbsp; новых новостей
         </button>
 
-        <ion-item *ngFor="let feed of news" (click)="goToFullFeed(feed)">
+        <ion-item *ngFor="let feed of news | reverse" (click)="goToFullFeed(feed)">
             <ion-title>{{ feed.placeName }}</ion-title>
             <h3>{{ feed.title }}</h3>
             <p>{{ feed.textPreview }} </p>
