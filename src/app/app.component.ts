@@ -20,6 +20,7 @@ export class MyApp {
   userOnChangeCallback;
 
   rootPage: any = NewsPage;
+  
   pages: Array<{title: string, component: any}> = [
       { title: 'Новости', component: NewsPage},
       { title: 'Места', component: PlacesPage}

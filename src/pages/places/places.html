@@ -8,7 +8,7 @@
             <ion-select #list (ionChange)="selectListChanged()" okText="Выбрать" cancelText="Отмена" [(ngModel)]="selectedTypes" multiple="false" placeHolder="Выберите тип заведения">
                 <!--<ion-select #list (change)="onChange($event.target.value)" (ionChange)="selectListChanged()" okText="Выбрать" cancelText="Отмена" [(ngModel)]="selectedTypes" multiple="true" placeHolder="Выберите тип заведения">-->
                 <!--<ion-select #list (change)="onChange($event.target.value)" (ionChange)="selectListChanged()" okText="Выбрать" cancelText="Отмена" (ngModelChange)="onChange($event)" [ngModel]="selectedTypes" multiple="true" placeHolder="Выберите тип заведения">-->
-                <!--<ion-option value="all">Все</ion-option>-->
+                <ion-option value="Все" selected>Все</ion-option>
                 <ion-option *ngFor="let type of placeTypes" [value]="type.name">{{ type.name }} ({{ type.count }}) </ion-option>
             </ion-select>
         </ion-item>
@@ -18,9 +18,9 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item *ngIf="filteredPlaces == []">Выберите тип заведения</ion-item>
+        <ion-item *ngIf="filteredPlaces === []">Выберите тип заведения</ion-item>
         <button ion-item *ngFor="let place of filteredPlaces" (click)="goToPlacePage(place)">
-            {{ place.placeName }}
+            {{ place.name }}
         </button>
     </ion-list>
 

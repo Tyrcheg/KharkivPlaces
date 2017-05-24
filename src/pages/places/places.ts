@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 
-import * as _ from 'lodash';
 import * as db from 'firebase';
-
+import { PlacePage } from "../pages";
 
 @IonicPage()
 @Component({
@@ -13,7 +12,7 @@ import * as db from 'firebase';
 export class PlacesPage {
   placesTypesRef = db.database().ref('placesTypes/');
 
-  selectedTypes = "";
+  selectedTypes = [];
   placeTypes = [];
 
   filteredPlaces = [];
@@ -23,33 +22,33 @@ export class PlacesPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     private loader: LoadingController) {
-    this.getPlaceTypes();
+      this.selectedTypes = ["Все"];
+      this.getTypesAndPlaces();
   }
 
-  getPlaceTypes(){
+  getTypesAndPlaces(){
     var loading = this.loader.create();
     loading.present();
     var typesArray = [];
     var placesArray = [];
+
     this.placesTypesRef.once('value', snap => {
       snap.forEach(type => {
+        if(type.val().placesCount == 0)
+          return;
         typesArray.push({ name: type.val().name, count: type.val().placesCount});
-        // placesArray.push({ type: type.val().name, places: type.val().places});
-        // type.val().places.forEach(place => {
-          var places = type.val().places;
-          if(type.val().placesCount > 0){
-            Array.from(places).forEach(elem => {
-              placesArray.push(elem);
-            });
-            Object.keys(places).forEach(function (key){
-               placesArray.push(places[key]);
-            });
-          }
+        var snapPlaces = type.val().places;
+
+        for (var key in snapPlaces) {
+          if (snapPlaces.hasOwnProperty(key)) 
+            placesArray.push({ id: snapPlaces[key].id, name: snapPlaces[key].name,  type: type.val().name })
+      }
         return false;
       });
-      console.log("Places array", placesArray);
+      
       this.placeTypes = typesArray;
       this.places = placesArray;
+      this.selectListChanged();
 
       loading.dismiss();
     })
@@ -58,12 +57,7 @@ export class PlacesPage {
   selectListChanged(){
     console.log("List changed", this.selectedTypes);
 
-    // this.filteredPlaces = [];
-    // if(this.selectedTypes.indexOf("all") >= 0){
-    //   this.filteredPlaces = this.places;
-    //   return;
-    // }
-    if(this.selectedTypes ===  "all") {
+    if(this.selectedTypes.indexOf("Все") > -1) {
       this.filteredPlaces = this.places;
       return;
     }
@@ -73,8 +67,7 @@ export class PlacesPage {
   }
 
   goToPlacePage(place){
-    console.log(place);
-     //this.navCtrl.push(PlacePage, place);
+     this.navCtrl.push(PlacePage, place.id);
   }
 
   filterArrayOfPlaces(value){

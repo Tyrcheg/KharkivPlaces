@@ -23,7 +23,7 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-
+    
     <ion-list>
         <button (click)="showNewFeeds()" *ngIf="isGotNewFeeds" ion-button block clear>
                 <!--<ion-icon name="notifications " ></ion-icon>-->
@@ -38,4 +38,9 @@
         </ion-item>
     </ion-list>
 
+    <ion-item *ngIf="errors">
+        <pre>
+            {{ errors || json }}
+        </pre>
+    </ion-item>
 </ion-content>

@@ -9,6 +9,7 @@ import * as db from 'firebase';
   templateUrl: 'news.html',
 })
 export class NewsPage {
+  errors: any;
   isGotNewFeeds: boolean = false;
   isFirstLoad: boolean = true;
   newsSelector = "all";
@@ -32,19 +33,24 @@ export class NewsPage {
         }
         this.user = db.auth().currentUser;
         this.newsSelector = "my";
-      })   
-      this.updateFeeds();
-      this.onNewFeedComesEventSubscribe()
+      })
+      try {
+        this.updateFeeds();
+        this.onNewFeedComesEventSubscribe()
+      }
+      catch(err) { this.showError(err); }
+      
   }
 
   updateFeeds() {
-    this.news = [];
+    var newFeeds = [];
     return this.newsRef.orderByChild('date').limitToLast(30).once("value", snap => {
       snap.forEach(feed => {
-        this.news.push(feed.val());
+        newFeeds.push(feed.val());
         return false;
       });
-    });
+      this.news = newFeeds;
+    }).catch(err => this.errors = err);
   }
 
   selectedMyNews(){
@@ -102,6 +108,13 @@ export class NewsPage {
   showNewFeeds(){
     this.news = this.news.concat(this.newFeedsArray);
     this.newFeedsArray = [];
+  }
+
+  showError(err){
+    this.alertCtrl.create({
+      title: "Error",
+      message: JSON.parse(err)
+    })
   }
 
 }
