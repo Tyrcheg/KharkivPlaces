@@ -4,7 +4,7 @@ import { IonicPage, NavController,
 } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EmailValidator } from '../../validators/email';
-import { AuthorizationService } from "../../providers/providers";
+import { AccountService } from "../../providers/providers";
 
 import { NewsPage } from "../pages";
 
@@ -22,7 +22,7 @@ export class SignupPage {
 
     constructor(
         public nav: NavController, 
-        public authService: AuthorizationService,
+        public accountService: AccountService,
         public formBuilder: FormBuilder, 
         public loadingCtrl: LoadingController,
         public alertCtrl: AlertController,
@@ -39,10 +39,12 @@ export class SignupPage {
             console.log(this.signupForm.value);
             return;
         }
-        this.authService.signupUser(this.signupForm.value.email, this.signupForm.value.password)
-            .then(() => {
+        this.accountService.signupUser(this.signupForm.value.email, this.signupForm.value.password)
+            .then(userSnap => {
                 this.loading.dismiss().then(() => {
-                    this.toastCtrl.create({ message: "Вы успешно зарегестрировались!", duration: 3000, cssClass: "text-center"}).present();
+                    this.toastCtrl.create(
+                        { message: "Вы успешно зарегестрировались!", 
+                        duration: 3000, cssClass: "ion-toast-success"}).present();
                     this.nav.setRoot(NewsPage);
                 });
             }, error => {

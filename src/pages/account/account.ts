@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import { AccountService, AuthorizationService } from "../../providers/providers";
+import { AccountService } from "../../providers/providers";
 
 @IonicPage()
 @Component({
@@ -14,18 +14,16 @@ export class AccountPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private accountSrv: AccountService,
-    private authService: AuthorizationService) {
+    private accountSrv: AccountService) {
       this.user = navParams.data;
   }
 
-  loadUsersInfo(){
-    // this.accountSrv.loadFullInfo().then( user => {
-    //   this.user = user;
-    // })
+  loadUsersFollowings(){
+        
   }
+
   logOut() {
-    this.authService.logoutUser().then( suc => {
+    this.accountSrv.logout().then( suc => {
       this.navCtrl.popToRoot();
     }, err => {
       alert("Что-то пошло не так.")

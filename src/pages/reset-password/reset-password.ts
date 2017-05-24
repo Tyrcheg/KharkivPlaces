@@ -4,7 +4,7 @@ import { IonicPage, NavController,
 
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthorizationService } from "../../providers/providers";
+import { AccountService } from "../../providers/providers";
 import { EmailValidator } from "../../validators/email";
 
 @IonicPage()
@@ -16,7 +16,7 @@ export class ResetPasswordPage {
     public resetPasswordForm;
 
     constructor(
-        public authData: AuthorizationService, 
+        public accountService: AccountService, 
         public formBuilder: FormBuilder,
         public nav: NavController, 
         public loadingCtrl: LoadingController,
@@ -32,7 +32,7 @@ export class ResetPasswordPage {
             console.log(this.resetPasswordForm.value);
             return;
         } 
-        this.authData.resetPassword(this.resetPasswordForm.value.email).then((user) => {
+        this.accountService.resetPassword(this.resetPasswordForm.value.email).then((user) => {
             let alert = this.alertCtrl.create({
                 message: "Письмо с инструкцией для изменения пароля было отправлено Вам на почту",
                 buttons: [

@@ -3,9 +3,10 @@ import { Nav, Platform, ModalController, ToastController, Events } from 'ionic-a
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 import { NewsPage, LoginPage, AccountPage, PlacesPage } from "../pages/pages";
+import { AccountService } from "../providers/providers";
 
 @Component({
   templateUrl: 'app.html'
@@ -30,10 +31,11 @@ export class MyApp {
     public splashScreen: SplashScreen,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private events: Events
+    private events: Events,
+    private accountService: AccountService
     ) {
-      this.initializeFirebase();
-      this.initializeApp();      
+      this.initializeApp();
+
       this.subscribeToAuthChangeEvent();
   }
 
@@ -46,52 +48,37 @@ export class MyApp {
     });
   }
 
-  initializeFirebase(){
-      var config = {
-          apiKey: "AIzaSyBS4m82UW1BT56bl_heTFaVQZumizKzUkA",
-          authDomain: "kharkivplaces.firebaseapp.com",
-          databaseURL: "https://kharkivplaces.firebaseio.com",
-          projectId: "kharkivplaces",
-          storageBucket: "kharkivplaces.appspot.com",
-          messagingSenderId: "503102642749"
-      };
-      try {
-        // console.log("Start initializing firebase");
-        firebase.initializeApp(config);
-      }
-      catch(err) { console.warn("Firebase error initialization", err)}
-  }
-
   subscribeToAuthChangeEvent(){
     firebase.auth().onAuthStateChanged(user => {
       if(!user){
-        console.log("User logged out");
+        console.log("OnAutChange: LoggedOut");
         this.user = null;
         MyApp.globalUserObj = null;
         this.unsubscribeFromUserChangedEvent();
         return;
       }
-      // console.log("OnAuthChangedEvent", user);
-      this.userRef = firebase.database().ref('/users').child(user.uid);
+      console.log("OnAutChange: LoggedIn", user.uid);
+      this.userRef = firebase.database().ref('users/' + user.uid);
       this.userRef.once('value', snap => {
         this.user = snap.val();
+        console.log("After on auth changed + once ", snap.val());
         MyApp.globalUserObj = this.user;
       });
-      this.subscribeOnUserChangedEvent();
-    })
+       this.subscribeOnUserChangedEvent();
+    });
   }
 
   subscribeOnUserChangedEvent(){
-    this.userOnChangeCallback = this.userRef.on('child_changed', snap => {
-      // console.log("Snap after changed")
-      snap.ref.parent.once('value', snap => {
-        this.user = snap.val();
-      }, err => {
-        if(!err)
-          console.log("UserChangedEvent fires", this.user);
+      this.userOnChangeCallback = this.userRef.on('child_changed', snap => {
+        snap.ref.parent.once('value', snap => {
+          this.user = snap.val();
+        }, err => {
+          if(!err)
+            console.log("UserChangedEvent fires", this.user);
+        });
       });
-    });
   }
+
   unsubscribeFromUserChangedEvent(){
     console.log("UserUnsubscribe from change", this.user);
     if(this.userRef)
@@ -113,9 +100,8 @@ export class MyApp {
 
   openLoginPage() {
     this.nav.push(LoginPage, null, {
-      // animation: 'ios-transition'
       animate : true,
-      direction: 'forward'
+      direction: 'forward' // can be back
     });
   }
 

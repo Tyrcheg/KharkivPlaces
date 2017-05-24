@@ -7,7 +7,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { EmailValidator } from '../../validators/email';
 
 import { SignupPage, ResetPasswordPage } from "../pages";
-import { AuthorizationService } from "../../providers/providers";
+import { AccountService } from "../../providers/providers";
 
 @IonicPage()
 @Component({
@@ -24,7 +24,7 @@ export class LoginPage {
       public alertCtrl: AlertController,
       private viewCtrl: ViewController,
       public loadingCtrl: LoadingController,
-      public authService: AuthorizationService, 
+      public accountService: AccountService, 
       public nav: NavController,
       private appCtrl: App,
       private toastCtrl: ToastController,
@@ -46,12 +46,13 @@ export class LoginPage {
             return;
         }
 
-        this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password)
+        this.accountService.login(this.loginForm.value.email, this.loginForm.value.password)
             .then(authData => {
                 console.log("Data after authService.loginUser", authData);
                 this.loading.dismiss().then(() => {
                     this.toastCtrl.create({
-                        message: "Успешная авторизация",
+                        message: "Вы успешно авторизовались",
+                        cssClass: "ion-toast-success",
                         duration: 2500
                     }).present();
                     this.dismiss();

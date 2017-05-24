@@ -4,3 +4,10 @@ page-login {
         margin-left: 7px !important;
     }
 }
+
+.ion-toast-success {
+    >div {
+        background-color: green !important;
+        text-align: center;
+    }
+}

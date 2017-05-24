@@ -6,7 +6,7 @@
         <ion-title>Новости</ion-title>
     </ion-navbar>
     <ion-toolbar>
-        <ion-segment [(ngModel)]="news" color="primary">
+        <ion-segment [(ngModel)]="newsSelector" color="primary">
             <!--<ion-segment-button [disabled]="(user === null) ? true : null" value="my" (ionSelect)="selectedMyNews()">-->
             <ion-segment-button value="my" (ionSelect)="selectedMyNews()">
                 Мои
@@ -20,8 +20,22 @@
 
 
 <ion-content padding>
-    <div *ngIf="newFeedsCount !== 0">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
-    </div>
+    <ion-list>
+        <button (click)="showNewFeeds()" *ngIf="isGotNewFeeds" ion-button block clear>
+                <!--<ion-icon name="notifications " ></ion-icon>-->
+                <ion-badge >{{ newFeedsArray.length }} </ion-badge>
+                &nbsp; новых новостей
+        </button>
+
+        <ion-item *ngFor="let feed of news ">
+            <ion-title>{{ feed.title }}</ion-title>
+            <p>{{ feed.shortText }} </p>
+            <ion-note item-right>{{ feed.date }}</ion-note>
+        </ion-item>
+    </ion-list>
 
 </ion-content>

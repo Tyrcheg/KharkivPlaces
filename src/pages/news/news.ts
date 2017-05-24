@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events, AlertController, ModalController } from 'ionic-angular';
 import { LoginPage } from "../pages";
-import firebase from 'firebase';
-import { DbService } from "../../providers/providers";
+import * as db from 'firebase';
 
 @IonicPage()
 @Component({
@@ -10,31 +9,42 @@ import { DbService } from "../../providers/providers";
   templateUrl: 'news.html',
 })
 export class NewsPage {
-  news = "all";
+  isGotNewFeeds: boolean = false;
+  isFirstLoad: boolean = true;
+  newsSelector = "all";
+  newsRef = db.database().ref('placesNews/');
+  
   user = null;
+  news = [];
+  newFeedsArray = [];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private events: Events,
     private alertCtrl: AlertController,
-    private modalCtrl: ModalController,
-    private db: DbService
+    private modalCtrl: ModalController
     ) {
-      firebase.auth().onAuthStateChanged(user => {
+      db.auth().onAuthStateChanged(user => {
         if(!user){
           this.user = null;
           return;
         }
-        // firebase.database().ref('/users').child(user.uid).once('value',
-        //   snap => this.user = snap.val());
-        this.user = firebase.auth().currentUser;
-        this.news = "my";
+        this.user = db.auth().currentUser;
+        this.newsSelector = "my";
       })   
-      // db.initDb();
-      // db.createRundomUser();      
-      // db.initPlaceTypes();
-      // db.createRandomPlace();
+      this.updateFeeds();
+      this.onNewFeedComesEventSubscribe()
+  }
+
+  updateFeeds() {
+    this.news = [];
+    return this.newsRef.orderByChild('date').limitToLast(30).once("value", snap => {
+      snap.forEach(feed => {
+        this.news.push(feed.val());
+        return false;
+      });
+    });
   }
 
   selectedMyNews(){
@@ -45,7 +55,7 @@ export class NewsPage {
         buttons: [{
           text: "Закрыть",
           role: "cancel",
-          handler: () => { this.news = "all" }
+          handler: () => { this.newsSelector = "all" }
         },
           {
             text: "Войти",
@@ -55,11 +65,10 @@ export class NewsPage {
               loginModal.present();
               loginModal.onDidDismiss( data => {
                 if(!data)
-                   this.news = "all";
+                   this.newsSelector = "all";
                 else
                   this.user = data;
                 navTransition.then( () => {
-                  // this.navCtrl.pop();
                 });
               });
               return false;
@@ -71,8 +80,28 @@ export class NewsPage {
 
   }
 
+  doRefresh(e){
+    this.updateFeeds().then( () => e.complete());
+  }
+
   selectedAllNews(){
     console.log("selected option AllNews")
+  }
+
+  onNewFeedComesEventSubscribe(){
+    this.newsRef.limitToLast(1).on('child_added', snap => {
+      if(this.isFirstLoad){
+        this.isFirstLoad = false;
+        return;
+      }
+      this.isGotNewFeeds = true;
+      this.newFeedsArray.push(snap.val());
+    })
+  }
+
+  showNewFeeds(){
+    this.news = this.news.concat(this.newFeedsArray);
+    this.newFeedsArray = [];
   }
 
 }
